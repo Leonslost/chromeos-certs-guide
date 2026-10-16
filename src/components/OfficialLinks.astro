@@ -1,6 +1,6 @@
 ---
 interface Props {
-  links?: { label: string; url: string }[];
+  links?: { label: string; url: string; paths?: string[] }[];
 }
 const { links = [] } = Astro.props;
 ---
@@ -8,7 +8,7 @@ const { links = [] } = Astro.props;
   <aside class="official-links" aria-label="Official documentation">
     <h3>Official documentation</h3>
     <ul>
-      {links.map((l) => <li><a href={l.url} rel="noopener">{l.label}</a></li>)}
+      {links.map((l) => <li data-paths={l.paths?.join(' ')}><a href={l.url} rel="noopener">{l.label}</a></li>)}
     </ul>
   </aside>
 )}

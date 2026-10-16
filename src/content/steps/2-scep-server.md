@@ -5,8 +5,19 @@ paths: [SCEP, DIY]
 officialLinks:
   - label: SCEP with Microsoft NDES (Google guide)
     url: https://support.google.com/chrome/a/answer/11338941
+    paths: [SCEP]
   - label: Use the Google Cloud Certificate Connector
     url: https://support.google.com/chrome/a/answer/11053129
+    paths: [SCEP]
+  - label: Certificate Provisioning API guide
+    url: https://developers.google.com/chrome/management/guides/certprovisioning_api
+    paths: [DIY]
+  - label: Certificate Provisioning API reference
+    url: https://developers.google.com/chrome/management/reference/rest/v1/customers.certificateProvisioningProcesses
+    paths: [DIY]
+  - label: Code samples
+    url: https://developers.google.com/chrome/management/guides/samples_certprovisioningapi
+    paths: [DIY]
 ---
 
 ChromeOS asks for certificates through Google's Certificate Provisioning API. To bridge that API to your CA, the Google Cloud Certificate Connector (GCCC) talks SCEP to a SCEP server. This guide does not explain how to configure a SCEP server: it tells you whether you need one and links to the vendor's own documentation.

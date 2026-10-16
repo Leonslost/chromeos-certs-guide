@@ -9,7 +9,9 @@ const schema = z.object({
   order: z.number().int(),
   /** PATH values this entry is shown to. */
   paths: z.array(z.enum(PATHS)).min(1),
-  officialLinks: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
+  officialLinks: z
+    .array(z.object({ label: z.string(), url: z.url(), paths: z.array(z.enum(['SCEP', 'DIY', 'VENDOR'])).optional() }))
+    .default([]),
 });
 
 export const collections = {
