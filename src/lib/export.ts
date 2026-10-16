@@ -2,7 +2,7 @@
 import { pathInfo, type Resolved } from '../data/flow';
 import { DERIVED, fieldsForPath } from '../data/scratchpad';
 import type { State } from './state';
-import { resolveValue } from './template';
+import { defaultFor, resolveValue } from './template';
 
 export function exportMarkdown(state: State, resolved: Resolved, stepTitles: Record<string, string>): string {
   const lines: string[] = ['# ChromeOS client certificate provisioning: my answers', ''];
@@ -20,7 +20,9 @@ export function exportMarkdown(state: State, resolved: Resolved, stepTitles: Rec
     lines.push('## Values', '', '| Variable | Value |', '| --- | --- |');
     const unset = '_not set_';
     for (const f of fieldsForPath(resolved.path)) {
-      lines.push(`| \`${f.key}\` | ${state.values[f.key]?.trim() ? `\`${state.values[f.key].trim()}\`` : unset} |`);
+      const explicit = state.values[f.key]?.trim();
+      const dflt = explicit ? undefined : defaultFor(f.key, state.values);
+      lines.push(`| \`${f.key}\` | ${explicit ? `\`${explicit}\`` : dflt ? `\`${dflt}\` (default)` : unset} |`);
       if (f.key === 'connector_sa_name') {
         for (const key of Object.keys(DERIVED)) {
           const v = resolveValue(key, state.values);

@@ -9,7 +9,7 @@ officialLinks:
     url: https://support.google.com/chrome/a/answer/11053129
 ---
 
-Google publishes certificate requests to a Pub/Sub topic that **you** own. This step creates the project, the topic, a subscription, and the permissions between them. The gcloud commands below are drafted from the plan and have not been run end to end yet; the read-backs at the end tell you whether it worked.
+Google publishes certificate requests to a Pub/Sub topic that **you** own. This step creates the project, the topic, its subscription, and the permissions between them. The gcloud commands below are drafted from the plan and have not been run end to end yet; the read-backs at the end tell you whether it worked.
 
 ## Set it up
 
@@ -21,9 +21,9 @@ Use either route. Each value you enter fills every command and link on this site
 1. **Create a project:** [Create project](https://console.cloud.google.com/projectcreate). Then enter its ID: {{project_id}}
 
 2. **Enable the APIs:** the [Chrome Management API](https://console.cloud.google.com/apis/library/chromemanagement.googleapis.com) and the [Cloud Pub/Sub API](https://console.cloud.google.com/apis/library/pubsub.googleapis.com).
-3. **Create the topic:** [Pub/Sub → Topics](https://console.cloud.google.com/cloudpubsub/topic/list) → Create topic. Then enter its ID: {{topic_id}}
+3. **Create the topic:** [Pub/Sub → Topics](https://console.cloud.google.com/cloudpubsub/topic/list) → **Create topic**. Enter a topic ID, tick **Add a default subscription** (this creates a subscription named `<topic-id>-sub`), and leave **Encryption** on **Google-managed encryption key**, the default. Then click **Create**. Then enter the topic's ID: {{topic_id}}. The subscription it created is {{subscription_id}}.
 
-4. **Create the subscription** on that topic, in [Pub/Sub → Subscriptions](https://console.cloud.google.com/cloudpubsub/subscription/list): no message filter, and **expiration: never expire**. (The default expires after 31 days with nothing reading it.) Then enter its ID: {{subscription_id}}
+4. **Stop the subscription expiring:** in [Pub/Sub → Subscriptions](https://console.cloud.google.com/cloudpubsub/subscription/list) open the subscription {{subscription_id}} → **Edit** → **Expiration period: Never expire** → **Update**. A default subscription expires after 31 days with no activity (for example, if the connector is offline for a month), and requests then silently stop. Leave the message filter as it is (none).
 
 5. **Publisher grant:** open the topic → Permissions → add principal `cert-provisioning-api-pubsub-publisher@system.gserviceaccount.com` with role **Pub/Sub Publisher**. We recommend topic scope; official docs also allow project scope. If this fails, see [If something fails → Domain restricted sharing](#domain-restricted-sharing).
 6. **Create the connector service account:** [IAM & Admin → Service accounts](https://console.cloud.google.com/iam-admin/serviceaccounts) → Create service account. Then enter its name: {{connector_sa_name}}. Its email is {{connector_sa_email}}.

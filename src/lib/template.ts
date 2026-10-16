@@ -1,12 +1,12 @@
 /** `{{variable}}` template engine. Unfilled values become visible `<PLACEHOLDER>`s, never empty. */
-import { DERIVED } from '../data/scratchpad';
+import { DEFAULTS, DERIVED } from '../data/scratchpad';
 
 export type Values = Record<string, string>;
 /**
  * `key` marks text that came from a scratchpad value, `ph` an unfilled one. `via` names the derived
  * variable (e.g. connector_sa_email) the piece belongs to, so the UI can explain that it is derived.
  */
-export type Seg = { text: string; key?: string; via?: string } | { ph: string; via?: string };
+export type Seg = { text: string; key?: string; via?: string; isDefault?: boolean } | { ph: string; via?: string };
 export type Format = 'text' | 'json';
 
 const RE = /\{\{\s*(\w+)\s*\}\}/g;
@@ -27,12 +27,25 @@ export function segments(template: string, values: Values, format: Format = 'tex
       out.push(...segments(derived.template, values, format, depth + 1, key));
     } else {
       const v = (values[key] ?? '').trim();
-      out.push(v ? { text: escapeFor(v, format), key, via } : { ph: key, via });
+      const dflt = v ? undefined : defaultFor(key, values, format, depth + 1);
+      if (v) out.push({ text: escapeFor(v, format), key, via });
+      // One chip for the whole default, bound to the field itself, so editing it sets an override.
+      else if (dflt !== undefined) out.push({ text: dflt, key, via, isDefault: true });
+      else out.push({ ph: key, via });
     }
     last = m.index + m[0].length;
   }
   if (last < template.length) out.push({ text: template.slice(last) });
   return out;
+}
+
+/** The fallback value of a field the user has not set (see DEFAULTS), or undefined when it has none or cannot be resolved yet. */
+export function defaultFor(key: string, values: Values, format: Format = 'text', depth = 0): string | undefined {
+  const template = DEFAULTS[key];
+  if (!template || depth >= 5) return undefined;
+  const segs = segments(template, values, format, depth);
+  if (segs.some((s) => 'ph' in s)) return undefined;
+  return segs.map((s) => ('text' in s ? s.text : '')).join('');
 }
 
 /** Plain-text rendering (placeholders as `<KEY>`), plus how many were unfilled. */

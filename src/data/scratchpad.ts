@@ -41,7 +41,7 @@ export const FIELDS: Field[] = [
   {
     key: 'subscription_id',
     label: 'Subscription ID',
-    hint: 'Short name of the subscription.',
+    hint: 'Short name of the subscription. Leave empty to use <topic ID>-sub, the name the console gives its default subscription.',
     example: 'cert-provisioning-sub',
     collectedAt: 'Step 3',
     paths: ALL,
@@ -97,6 +97,14 @@ export const DERIVED: Record<string, { label: string; template: string }> = {
     label: 'Connector service account email (derived)',
     template: '{{connector_sa_name}}@{{project_id}}.iam.gserviceaccount.com',
   },
+};
+
+/**
+ * Fields that fall back to a template while the user has not set them. The default is never written
+ * into state: it keeps following the other values until the user types an explicit override.
+ */
+export const DEFAULTS: Record<string, string> = {
+  subscription_id: '{{topic_id}}-sub',
 };
 
 export function fieldsForPath(path: PathId | undefined): Field[] {

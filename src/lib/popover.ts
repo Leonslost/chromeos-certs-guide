@@ -1,6 +1,7 @@
 /** Click-to-edit popover for `{{variable}}` placeholders and filled values inside snippets. */
-import { DERIVED, FIELDS } from '../data/scratchpad';
+import { DEFAULTS, DERIVED, FIELDS } from '../data/scratchpad';
 import { getValues, setValue } from './bind';
+import { defaultFor } from './template';
 
 let pop: HTMLElement | null = null;
 let cleanup: (() => void) | null = null;
@@ -36,7 +37,7 @@ export function openEditor(anchor: HTMLElement) {
   input.type = 'text';
   input.id = 'var-popover-input';
   input.value = getValues()[key] ?? '';
-  input.placeholder = field?.example ?? '';
+  input.placeholder = (key in DEFAULTS ? defaultFor(key, getValues()) : undefined) ?? field?.example ?? '';
   input.autocomplete = 'off';
   input.spellcheck = false;
   input.setAttribute('autocapitalize', 'off');
