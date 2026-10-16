@@ -2,11 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import ScratchpadPanel from '../../components/ScratchpadPanel.astro';
 import OfficialLinks from '../../components/OfficialLinks.astro';
-import TroubleCard from '../../components/TroubleCard.astro';
 import ReportLink from '../../components/ReportLink.astro';
 import { cardReportUrl } from '../../lib/report';
 import { loadCards } from '../../lib/content';
-import { trees } from '../../data/troubleshooting';
 
 const cards = await loadCards();
 ---
@@ -19,13 +17,13 @@ const cards = await loadCards();
     <main class="content" id="main">
       <h1>Troubleshooting</h1>
 
-      <p class="lead-text">Start on the device. Most problems show there first. Each card is plain text on one page, so your browser's find (Ctrl-F) works across all of them.</p>
+      <p class="lead-text">Start on the device. Most problems show there first. Each section is plain text on one page, so your browser's find (Ctrl-F) works across all of them.</p>
 
       <p class="notice-na" data-paths-strict="VENDOR DIY">
-        Cards 2 and 3 are specific to the Google Cloud Certificate Connector (GCCC), which your path does not use.
+        Sections 2 and 3 are specific to the Google Cloud Certificate Connector (GCCC), which your path does not use.
       </p>
 
-      <h2>Cards</h2>
+      <h2>Sections</h2>
       <ul class="symptom-list">
         {cards.map(({ entry }) => (
           <li class="symptom-item" data-paths={entry.data.paths.join(' ')}>
@@ -35,21 +33,14 @@ const cards = await loadCards();
       </ul>
 
       {cards.map(({ entry, Content }) => {
-        const tree = trees[entry.id];
         return (
           <article class="card" id={entry.id} data-paths={entry.data.paths.join(' ')}>
             <header class="step-header">
               <h2>{entry.data.title}</h2>
             </header>
             <div class="prose"><Content /></div>
-            {tree && (
-              <section aria-label="Checks">
-                <h3>Checks, in order</h3>
-                <TroubleCard tree={tree} />
-              </section>
-            )}
             <OfficialLinks links={entry.data.officialLinks} />
-            <ReportLink href={cardReportUrl(entry.data.title)} label="Report a problem with this card" />
+            <ReportLink href={cardReportUrl(entry.data.title)} label="Report a problem with this section" />
           </article>
         );
       })}

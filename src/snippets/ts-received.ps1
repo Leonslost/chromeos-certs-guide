@@ -1,0 +1,1 @@
+Get-WinEvent -FilterHashtable @{LogName='Application';ProviderName='GoogleCloudCertificateConnector';StartTime=(Get-Date).AddMinutes(-10)} | ? Message -match 'received message|Enrollment request|failed to claim' | fl TimeCreated,Message

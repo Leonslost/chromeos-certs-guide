@@ -726,7 +726,6 @@ pre,
 .notice-na,
 table,
 .card,
-.check,
 .ts-entry,
 .ts-jump-nav,
 .ts-legend {
@@ -1645,6 +1644,7 @@ table,
 }
 
 .symptom-item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1657,9 +1657,32 @@ table,
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.symptom-item:hover {
+.symptom-item:hover,
+.symptom-item:focus-within {
   border-color: var(--accent);
   box-shadow: var(--shadow-md);
+}
+
+.symptom-item:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Stretched link: the whole box is the click target, not just the title text. */
+.symptom-title::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.symptom-item:hover .symptom-title,
+.symptom-title:focus-visible {
+  color: var(--accent);
+}
+
+.symptom-title:focus-visible {
+  outline: none;
 }
 
 .symptom-title {
@@ -1680,70 +1703,6 @@ table,
   scroll-margin-top: 5rem;
 }
 
-.checks {
-  margin: 1.5rem 0;
-}
-
-.check {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  box-shadow: var(--shadow-sm);
-  scroll-margin-top: 5rem;
-  transition: all 0.2s ease;
-}
-
-.check:target {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2), var(--shadow-md);
-  transform: translateY(-1px);
-}
-
-.check h4 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--text);
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  line-height: 1.4;
-}
-
-.tlabel {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 26px;
-  height: 26px;
-  padding: 0 6px;
-  border-radius: 13px;
-  background: var(--accent-subtle);
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 0.8rem;
-  flex-shrink: 0;
-}
-
-.check-result {
-  background: #f8fafd;
-  border-color: var(--accent-border);
-  border-left: 4px solid var(--accent);
-}
-
-.check-result h4 {
-  color: var(--accent-hover);
-  font-size: 1.15rem;
-}
-
-.check-result .tlabel {
-  background: var(--accent);
-  color: #ffffff;
-}
-
-.tfix,
 .ts-fix {
   background: var(--success-bg);
   border: 1px solid var(--success-border);
@@ -1756,7 +1715,6 @@ table,
   line-height: 1.6;
 }
 
-.tfix strong,
 .ts-fix strong {
   color: var(--success);
 }
@@ -1986,53 +1944,6 @@ a.ts-legend-item:hover {
   color: var(--text);
 }
 
-.outcomes {
-  list-style: none;
-  padding: 0;
-  margin: 1.25rem 0 0 0;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-subtle);
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 0.75rem;
-}
-
-.outcomes li {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  padding: 0.65rem 0.85rem;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  transition: all 0.15s ease;
-}
-
-.outcomes li:hover {
-  border-color: var(--accent-border);
-  background: #f8fafd;
-}
-
-.outcomes li strong {
-  color: var(--text);
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  min-width: 38px;
-}
-
-.outcomes li a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.outcomes li a:hover {
-  text-decoration: underline;
-}
-
 /* ---- Site Footer ---- */
 .site-footer {
   max-width: var(--page-max-width);
@@ -2157,10 +2068,6 @@ a.ts-legend-item:hover {
   }
 
   #handoff {
-    padding: 1.15rem;
-  }
-
-  .check {
     padding: 1.15rem;
   }
 

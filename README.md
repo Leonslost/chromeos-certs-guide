@@ -14,7 +14,7 @@ author's test bench.
 ## Found a problem?
 
 Please [open an issue](https://github.com/Leonslost/chromeos-certs-guide/issues/new/choose). Every step and
-troubleshooting card also has a "Report a problem" link that pre-fills the form. Do not paste secrets (private keys,
+troubleshooting section also has a "Report a problem" link that pre-fills the form. Do not paste secrets (private keys,
 `service_account.json`, passwords, tokens) into issues.
 
 For official support, use [Google's documentation and support channels](https://support.google.com/chrome/a/answer/11053129).
@@ -42,10 +42,9 @@ Markdown plugin (`src/plugins/remark-snippets.mjs`). After editing the plugin, s
 
 Logic, content and snippets are kept apart. **Flow data** (the CA and SCEP-server decision nodes, the `PATH` each
 option sets, and which steps each `PATH` sees) lives in `src/data/flow.ts`; the scratchpad fields and derived
-values live in `src/data/scratchpad.ts`; troubleshooting decision trees live in `src/data/troubleshooting.ts`
-and feed both the flowchart and the card view. **Content** is Markdown with front-matter (`title`, `order`,
+values live in `src/data/scratchpad.ts`. **Content** is Markdown with front-matter (`title`, `order`,
 `paths`, `officialLinks`): one file per step in `src/content/steps/` and per
-troubleshooting card in `src/content/troubleshooting/` (schema in `src/content.config.ts`; the build fails if a
+troubleshooting section in `src/content/troubleshooting/` (all plain Markdown/HTML) (schema in `src/content.config.ts`; the build fails if a
 step's `paths` disagree with `flow.ts`). **Snippet templates** (gcloud, PowerShell, `adapter_config.json`)
 are plain files in `src/snippets/` registered in `src/snippets/index.json`, with `{{variable}}` placeholders;
 Markdown pulls them in with a ` ```snippet ` fence containing the snippet id, and ordinary code fences may use

@@ -13,7 +13,7 @@ On the test device, open `chrome://certificate-manager/clientcerts`. What it sho
   <span class="ts-legend-title">Error codes seen so far:</span>
   <a class="ts-legend-item" href="#dev-err-21"><span class="ts-code-badge">21</span> Publisher permission missing</a>
   <a class="ts-legend-item" href="#dev-err-13"><span class="ts-code-badge">13</span> Topic not found</a>
-  <span class="ts-legend-item" data-paths="SCEP"><a class="ts-legend-item" href="#dev-err-9"><span class="ts-code-badge">9</span> Connector or CA error (<span class="ts-legend-link">card 2</span>)</a></span>
+  <span class="ts-legend-item" data-paths="SCEP"><a class="ts-legend-item" href="#dev-err-9"><span class="ts-code-badge">9</span> Connector or CA error (<span class="ts-legend-link">section 2</span>)</a></span>
 </div>
 
 <article class="ts-entry" id="dev-no-profile">
@@ -69,7 +69,7 @@ On the test device, open `chrome://certificate-manager/clientcerts`. What it sho
   <p class="ts-means"><strong>Means:</strong> The device is repeating the connector's error verbatim.</p>
   <div class="ts-fix">
 
-**Fix:** Search [card 2](#t2-connector-errors) for the text after `The adapter provided the following error message:`.
+**Fix:** Search [section 2](#t2-connector-errors) for the text after `The adapter provided the following error message:`.
 
   </div>
 </article>
@@ -83,7 +83,7 @@ On the test device, open `chrome://certificate-manager/clientcerts`. What it sho
   <p class="ts-means"><strong>Means:</strong> The device is waiting. Check the connector log (Event Viewer → Windows Logs → Application → source <strong>GoogleCloudCertificateConnector</strong>).</p>
   <div class="ts-fix">
 
-**Fix:** If there is an error in the connector log, see [card 2](#t2-connector-errors). If the log only shows `Listening to requests...`, follow [card 3](#t3-device-waiting-gccc-silent).
+**Fix:** If there is an error in the connector log, see [section 2](#t2-connector-errors). If the log only shows `Listening to requests...`, follow [section 3](#t3-device-waiting-gccc-silent).
 
   </div>
 </article>
