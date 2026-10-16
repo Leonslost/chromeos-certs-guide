@@ -15,7 +15,7 @@ officialLinks:
 
 ## 1. Active Directory
 
-- Create a user account for NDES. No special permissions. Name: {{ndes_service_account}}
+- Create a service account for NDES. No special permissions. Name: {{ndes_service_account}}
 
 ## 2. Issuing CA
 
@@ -42,7 +42,7 @@ Server: {{ndes_host}}
 <div data-tab="Click-through">
 
 - Registry `HKLM\SOFTWARE\Microsoft\Cryptography\MSCEP`: set **EncryptionTemplate**, **GeneralPurposeTemplate** and **SignatureTemplate** to {{ca_template}}. (All three: NDES picks one based on the key usage in the Admin console profile.)
-- Same key: create the subkey **UseSinglePassword** with DWORD **UseSinglePassword = 1**.
+- Create the key `HKLM\SOFTWARE\Microsoft\Cryptography\MSCEP\UseSinglePassword`, and in it a DWORD **UseSinglePassword = 1** (full path `…\MSCEP\UseSinglePassword\UseSinglePassword`).
 - IIS Manager → Application Pools → **SCEP**: **Advanced Settings** → Identity = {{ndes_service_account}}, **Load User Profile = True**; **Basic Settings** → Managed pipeline mode **Integrated**.
 - Run `iisreset`.
 
