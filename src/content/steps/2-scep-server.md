@@ -52,9 +52,9 @@ Follow the vendor's documentation to set one up. All are products we know first-
 
 <ul>
 <li data-ca="A"><strong><a href="https://support.google.com/chrome/a/answer/11338941" rel="noopener">Microsoft NDES</a> (Recommended)</strong>. Google publishes a guide: <a href="https://support.google.com/chrome/a/answer/11338941" rel="noopener">SCEP with Microsoft NDES</a>.</li>
-<li><strong><a href="https://scepman.com/" rel="noopener">SCEPman</a></strong></li>
-<li><strong><a href="https://www.securew2.com/" rel="noopener">SecureW2</a></strong>. SecureW2 also offers the native Certificate Provisioning API path. Use that first: go back to Step 1 and choose the native Certificate Provisioning API option.</li>
-<li><strong><a href="https://www.keyfactor.com/" rel="noopener">Keyfactor</a></strong></li>
+<li><strong><a href="https://docs.scepman.com/certificate-management/static-certificates/google-workspace/chromeos" rel="noopener">SCEPman</a></strong></li>
+<li><strong><a href="https://securew2.com/documentation/google/chromeos-api-google-certificate-provisioning" rel="noopener">SecureW2</a></strong>. SecureW2 also offers the native Certificate Provisioning API path. Use that first: go back to Step 1 and choose the native Certificate Provisioning API option.</li>
+<li><strong><a href="https://docs.keyfactor.com/ejbca/latest/enrolling-chrome-os-devices-against-ejbca" rel="noopener">Keyfactor EJBCA</a></strong></li>
 <li><strong><a href="https://www.venafi.com/" rel="noopener">Venafi</a></strong></li>
 <li><strong><a href="https://smallstep.com/docs/step-ca/" rel="noopener">step-ca</a></strong> (Smallstep) as a SCEP RA in front of another CA. This is what our test bench runs.</li>
 </ul>

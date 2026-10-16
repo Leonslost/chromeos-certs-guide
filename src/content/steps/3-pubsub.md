@@ -94,6 +94,6 @@ gcloud-verify-topic gcloud-verify-subscription gcloud-verify-iam
 
 ## Hand-off to your vendor
 
-**Pub/Sub is done. Continue with your vendor's documentation:** for SecureW2, follow their [Google ChromeOS / Certificate Provisioning API guide](https://www.securew2.com/). This is the end of the guided setup. Troubleshooting remains available for the Pub/Sub side.
+**Pub/Sub is done. Continue with your vendor's documentation:** for SecureW2, follow their [ChromeOS Certificate Provisioning API guide](https://securew2.com/documentation/google/chromeos-api-google-certificate-provisioning). This is the end of the guided setup. Troubleshooting remains available for the Pub/Sub side.
 
 </div>
