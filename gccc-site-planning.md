@@ -170,8 +170,6 @@ step that can hit it):
 - Domain restricted sharing blocks the publisher grant (`constraints/iam.allowedPolicyMemberDomains`).
 - Key creation is disabled (`iam.disableServiceAccountKeyCreation` / `iam.managed.…`, on by default in
   newer orgs). SCEP path only.
-- Billing required when enabling an API. *Official docs list billing as a requirement; to verify by
-  test.*
 - Permission denied straight after a grant: IAM propagation can take up to about 90 s.
 - Can't create a project: you lack Project Creator.
 
@@ -390,6 +388,7 @@ before it reaches production.
 | 22 | Optional `ca_template` collected with the SCEP URL | Some CAs use templates (AD CS); it feeds the Step 4 profile |
 | 23 | Step 3: no prerequisites list; values entered right after the step that creates them; console links carry `?project=` from the scratchpad; failures go in an "If something fails" section linked from the steps | Fewer steps up front; GCP adds random characters to project IDs; errors are troubleshooting, not prerequisites |
 | 24 | List NDES as "Microsoft NDES" | Clarity |
+| 25 | No billing step or billing troubleshooting entry | Tested: a project without billing can enable the APIs and run this setup (official docs list billing as a requirement) |
 
 ---
 

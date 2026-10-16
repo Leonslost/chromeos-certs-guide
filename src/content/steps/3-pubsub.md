@@ -70,12 +70,6 @@ gcloud-create-topic gcloud-create-subscription
 
 </div>
 
-<h3 id="billing">Billing</h3>
-
-<!-- TODO verify: is billing actually required to enable pubsub/chromemanagement? -->
-
-**Symptom:** enabling an API asks you to link billing. **Fix:** link a billing account to the project. Pub/Sub usage for this is tiny.
-
 <h3 id="permission-denied-after-grant">Permission denied straight after a grant</h3>
 
 **Cause:** IAM changes can take up to about 90 seconds to apply. **Fix:** wait and retry.
