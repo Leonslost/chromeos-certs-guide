@@ -21,5 +21,6 @@
   "ts-tls-issuer": { "file": "ts-tls-issuer.ps1", "title": "Who answers TLS for Pub/Sub?" },
   "ts-curl-check": { "file": "ts-curl-check.ps1", "title": "curl.exe (schannel)" },
   "ts-http2-check": { "file": "ts-http2-check.ps1", "title": "Does the inspection pass HTTP/2? (PowerShell 7)" },
+  "ts-sub-seek": { "file": "ts-sub-seek.sh", "title": "Purge the subscription" },
   "ts-sub-describe": { "file": "ts-sub-describe.sh", "title": "Subscription wiring" }
 }
