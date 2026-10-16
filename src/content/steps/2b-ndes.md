@@ -60,7 +60,7 @@ ndes-config
 
 ## 5. Get the challenge
 
-- Browse to `http://{{ndes_host}}/certsrv/mscep_admin` (as an admin) and copy the password. This is your static SCEP challenge: you put it in `challenge.txt` in the connector step. Don't store it anywhere else.
+- Browse to `http://{{ndes_host}}/certsrv/mscep_admin` and sign in as the service account {{ndes_service_account}} when prompted. Seeing the password proves the account has the permissions it needs. Copy it: this is your static SCEP challenge for `challenge.txt` in the connector step. Don't store it anywhere else.
 
 ## How to know it's working
 
