@@ -36,11 +36,6 @@ Building your own adapter? Use a **SCEP** connection and profile, so every profi
 
 </div>
 
-<div data-paths-strict="SCEP">
-
-4. **Download the connector:** [Certificate authority connections](https://admin.google.com/ac/networks/certificates/ca-connections) → **Download connector**. You install it in Step 5.
-
-</div>
 
 ## How to know it's working
 
