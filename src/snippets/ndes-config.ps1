@@ -3,8 +3,7 @@ $key = 'HKLM:\SOFTWARE\Microsoft\Cryptography\MSCEP'
 foreach ($name in 'EncryptionTemplate', 'GeneralPurposeTemplate', 'SignatureTemplate') {
   Set-ItemProperty -Path $key -Name $name -Value '{{ca_template}}'
 }
-New-Item -Path "$key\UseSinglePassword" -Force | Out-Null
-New-ItemProperty -Path "$key\UseSinglePassword" -Name UseSinglePassword -Value 1 -PropertyType DWord -Force | Out-Null
+Set-ItemProperty -Path "$key\UseSinglePassword" -Name UseSinglePassword -Value 1
 
 Import-Module WebAdministration
 $cred = Get-Credential -Message "NDES service account (DOMAIN\{{ndes_service_account}})"
