@@ -13,6 +13,8 @@ const KNOWN = new Set([...FIELDS.map((f) => f.key), ...Object.keys(DERIVED)]);
 const TOKEN = /\{\{\s*(\w+)\s*\}\}/g;
 const esc = (/** @type {string} */ t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+const attr = (/** @type {string} */ t) => esc(t).replace(/"/g, '&quot;');
+
 const words = (/** @type {unknown} */ v) => String(v).split(/\s+/).filter(Boolean);
 
 export default defineMdastPlugin({
@@ -33,9 +35,43 @@ export default defineMdastPlugin({
     }
     ctx.replaceNode(node, { type: 'html', value: html + esc(value.slice(last)) });
   },
-  // Root-relative links in Markdown ([x](/troubleshooting/)) get the deploy base prefixed.
+  // Links:
+  //  - root-relative ([x](/troubleshooting/)) get the deploy base prefixed;
+  //  - a URL containing {{variables}} is a templated console link. It needs a fallback in the link title,
+  //    [text](https://console.cloud.google.com/.../edit/{{subscription_id}} "fallback: https://console.cloud.google.com/.../list"),
+  //    and becomes an <a> that src/lib/enhance.ts fills at runtime (the fallback is used while any variable is unset).
   link(node, ctx) {
     const url = String(node.url);
+    if (url.includes('{{')) {
+      const title = String(node.title ?? '');
+      const fallback = /^fallback:\s*(\S+)$/.exec(title)?.[1];
+      if (!fallback || fallback.includes('{{')) {
+        throw new Error(`Templated link needs a title of the form "fallback: <plain URL>" (no variables): ${url}`);
+      }
+      for (const m of url.matchAll(TOKEN)) {
+        if (!KNOWN.has(m[1])) throw new Error(`Unknown scratchpad variable {{${m[1]}}} in link URL (see src/data/scratchpad.ts): ${url}`);
+      }
+      const inner = (/** @type {any[]} */ nodes) =>
+        nodes
+          .map((n) => {
+            if (n.type === 'text' || n.type === 'inlineCode') {
+              const v = String(n.value);
+              if (v.includes('{{')) throw new Error(`Variables are not supported in templated link text: ${v}`);
+              return n.type === 'text' ? esc(v) : `<code>${esc(v)}</code>`;
+            }
+            if (n.type === 'strong') return `<strong>${inner(n.children)}</strong>`;
+            if (n.type === 'emphasis') return `<em>${inner(n.children)}</em>`;
+            throw new Error(`Unsupported content in templated link text (${n.type}): ${url}`);
+          })
+          .join('');
+      ctx.replaceNode(node, {
+        type: 'html',
+        value:
+          `<a href="${attr(fallback)}" data-console-href="${attr(fallback)}" data-console-template="${attr(url)}"` +
+          ` target="_blank" rel="noopener">${inner(node.children)}</a>`,
+      });
+      return;
+    }
     if (!url.startsWith('/') || url.startsWith('//') || url.startsWith(BASE + '/')) return;
     ctx.replaceNode(node, { type: 'link', url: BASE + url, title: node.title, children: node.children });
   },

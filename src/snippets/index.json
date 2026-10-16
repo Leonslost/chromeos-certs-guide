@@ -3,12 +3,13 @@
   "gcloud-enable-apis": { "file": "gcloud-enable-apis.sh", "title": "Enable the APIs" },
   "gcloud-create-topic": { "file": "gcloud-create-topic.sh", "title": "Create the topic" },
   "gcloud-create-subscription": { "file": "gcloud-create-subscription.sh", "title": "Create the subscription" },
-  "gcloud-grant-publisher": { "file": "gcloud-grant-publisher.sh", "title": "Grant Pub/Sub Publisher on the topic" },
+  "gcloud-grant-publisher": { "file": "gcloud-grant-publisher.sh", "title": "Grant Pub/Sub Publisher on the project" },
   "gcloud-create-sa": { "file": "gcloud-create-sa.sh", "title": "Create the connector service account" },
-  "gcloud-grant-subscriber": { "file": "gcloud-grant-subscriber.sh", "title": "Grant Pub/Sub Subscriber on the subscription" },
+  "gcloud-grant-subscriber": { "file": "gcloud-grant-subscriber.sh", "title": "Grant Pub/Sub Subscriber on the project" },
   "gcloud-create-key": { "file": "gcloud-create-key.sh", "title": "Create the service account key", "paths": ["SCEP"] },
-  "gcloud-verify-topic": { "file": "gcloud-verify-topic.sh", "title": "Read back: the topic and its IAM" },
-  "gcloud-verify-subscription": { "file": "gcloud-verify-subscription.sh", "title": "Read back: the subscription and its IAM" },
+  "gcloud-verify-topic": { "file": "gcloud-verify-topic.sh", "title": "Read back: the topic" },
+  "gcloud-verify-subscription": { "file": "gcloud-verify-subscription.sh", "title": "Read back: the subscription" },
+  "gcloud-verify-iam": { "file": "gcloud-verify-iam.sh", "title": "Read back: the publisher and subscriber grants" },
   "scep-check": { "file": "scep-check.ps1", "title": "Check the SCEP URL from the GCCC box" },
   "challenge-txt": { "file": "challenge-txt.ps1", "title": "Create challenge.txt (no trailing newline)" },
   "adapter-config": { "file": "adapter_config.json", "title": "adapter_config.json", "download": "adapter_config.json" },
@@ -19,6 +20,5 @@
   "ts-tls-issuer": { "file": "ts-tls-issuer.ps1", "title": "Who answers TLS for Pub/Sub?" },
   "ts-curl-check": { "file": "ts-curl-check.ps1", "title": "curl.exe (schannel)" },
   "ts-http2-check": { "file": "ts-http2-check.ps1", "title": "Does the inspection pass HTTP/2? (PowerShell 7)" },
-  "ts-sub-describe": { "file": "ts-sub-describe.sh", "title": "Subscription wiring" },
-  "ts-topic-iam": { "file": "ts-topic-iam.sh", "title": "Publisher grant on the topic" }
+  "ts-sub-describe": { "file": "ts-sub-describe.sh", "title": "Subscription wiring" }
 }

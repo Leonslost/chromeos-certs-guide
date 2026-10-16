@@ -145,18 +145,21 @@ straight to configuration, with two tabs.
 **Console click-through tab:** numbered steps. Each value is entered inline **right after the step that
 creates it**. Only the project ID gets random characters added; the other names are exactly what you type.
 
-1. Create a project → inline `project_id`.
-2. Enable the Chrome Management API and the Pub/Sub API.
-3. Create the topic → inline `topic_id`.
-4. Create the subscription on that topic, with no filter and expiry set to never → inline `subscription_id`.
-5. Grant `cert-provisioning-api-pubsub-publisher@system.gserviceaccount.com` Pub/Sub Publisher **on the
-   topic**.
-6. Create the connector service account → inline `connector_sa_name` (email derived).
-7. Grant it Pub/Sub Subscriber **on the subscription**.
-8. *(SCEP path only, gated silently with no wording about it)* Create a JSON key → `service_account.json`.
+Terse steps, just the action, with no reasoning text.
 
-Console links are built from the scratchpad: `?project=<id>` is added once a project ID has been entered.
-Without one, the console opens the last project used.
+1. Create a project → `project_id` chip.
+2. Enable the Chrome Management API and the Pub/Sub API.
+3. Create the service account (deep link to the create page) → `connector_sa_name` chip → **Create and
+   continue** → role **Pub/Sub Subscriber** (project level) → **Done**.
+4. *(SCEP only, gated silently)* Create a JSON key from the service account list (⋮ → Manage keys), then
+   rename the download to `service_account.json`.
+5. Grant the Google publisher **Pub/Sub Publisher at project level**: IAM → Grant access.
+6. Create the topic with **Add a default subscription** ticked and the Google-managed key → `topic_id`
+   chip. The subscription ID defaults to `<topic>-sub`.
+7. Set the subscription to never expire (deep link to its edit page).
+
+Console links are built from the scratchpad: the topic and subscription names go into the URL path,
+`?project=<id>` is added, and a link falls back to the list page while a value is unset.
 
 **Cloud Shell tab:** the same flow as gcloud snippets with click-to-edit placeholders, starting with
 `gcloud projects create` and `gcloud config set project`. The key snippet is gated to SCEP silently.
@@ -370,7 +373,7 @@ before it reaches production.
 | 5 | Order: Pub/Sub → Admin console → GCCC | Console needs Pub/Sub and its grants first (official); `adapter_config.json` needs the console's identifier |
 | 6 | No JSON payload generator for the Admin console | ~all users configure via the GUI |
 | 7 | GCCC setup is minimal; pinning, proxies and forensics are troubleshooting only | Simple install, deep troubleshooting |
-| 8 | Recommend topic-scoped publisher and subscription-scoped subscriber grants | Project-scope grants hide mistakes (bench failure mode 4). Official docs allow project scope |
+| 8 | Publisher and subscriber both granted **at project level** in IAM (revised from topic/subscription scope) | All IAM happens in one place, and the steps get much simpler. Acceptable because Step 3 creates a project just for this, holding one topic and one subscription. Trade-off: a wrong topic in the console or a wrong subscription in `adapter_config.json` won't show a permission error (bench failure modes 3 and 4); troubleshooting covers both. Official docs allow project scope |
 | 9 | GCCC files: `service_account.json`, `challenge.txt` | Simple and descriptive; avoids clashing with `key.json` from existing legacy SCEP setups |
 | 10 | DIY: SCEP connection/profile first, Generic as a one-line alternative | SCEP keeps every profile setting in the Admin console; DIY builders don't need hand-holding |
 | 11 | Troubleshooting: **per-symptom cards** (flowchart view dropped after the prototype) | Easier to skim, and Ctrl-F works, so all card content must be in the static HTML |

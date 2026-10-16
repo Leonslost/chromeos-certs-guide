@@ -7,14 +7,15 @@ export type Values = Record<string, string>;
  * variable (e.g. connector_sa_email) the piece belongs to, so the UI can explain that it is derived.
  */
 export type Seg = { text: string; key?: string; via?: string; isDefault?: boolean } | { ph: string; via?: string };
-export type Format = 'text' | 'json';
+/** `url` percent-encodes each value (for values placed inside a URL template). */
+export type Format = 'text' | 'json' | 'url';
 
 const RE = /\{\{\s*(\w+)\s*\}\}/g;
 
 export const placeholderText = (key: string) => `<${key.toUpperCase()}>`;
 
 const escapeFor = (value: string, format: Format) =>
-  format === 'json' ? JSON.stringify(value).slice(1, -1) : value;
+  format === 'json' ? JSON.stringify(value).slice(1, -1) : format === 'url' ? encodeURIComponent(value) : value;
 
 export function segments(template: string, values: Values, format: Format = 'text', depth = 0, via?: string): Seg[] {
   const out: Seg[] = [];

@@ -38,6 +38,18 @@ export function gate(root: ParentNode, ctx: GateCtx) {
       (cas && !(ctx.ca && cas.includes(ctx.ca)));
     if (drop) el.remove();
   });
+  renumberLists(root);
+}
+
+/**
+ * A gated block inside an ordered list splits it into several <ol start=N>. When the block was dropped, the
+ * lists on either side are neighbours: make the later one continue the earlier one's numbering.
+ */
+function renumberLists(root: ParentNode) {
+  root.querySelectorAll<HTMLOListElement>('ol[start]').forEach((ol) => {
+    const prev = ol.previousElementSibling;
+    if (prev instanceof HTMLOListElement) ol.start = prev.start + prev.children.length;
+  });
 }
 
 /** Wrap every <pre> in `.codeblock` with a copy button; remember {{templates}}. */
@@ -106,7 +118,14 @@ export function prepareConsoleLinks(root: ParentNode) {
 function fillConsoleLinks(root: ParentNode, values: Values) {
   const project = (values.project_id ?? '').trim();
   root.querySelectorAll<HTMLAnchorElement>('a[data-console-href]').forEach((a) => {
-    const url = new URL(a.dataset.consoleHref ?? '');
+    // A templated link ({{vars}} in the URL) is filled from the values; any unset variable selects the fallback.
+    const template = a.dataset.consoleTemplate;
+    let target = a.dataset.consoleHref ?? '';
+    if (template) {
+      const segs = segments(template, values, 'url');
+      if (!segs.some((s) => 'ph' in s)) target = segs.map((s) => ('text' in s ? s.text : '')).join('');
+    }
+    const url = new URL(target);
     // Project creation has no project yet; adding one would be meaningless.
     if (project && !url.pathname.startsWith('/projectcreate')) url.searchParams.set('project', project);
     else url.searchParams.delete('project');

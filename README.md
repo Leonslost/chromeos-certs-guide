@@ -51,7 +51,13 @@ are plain files in `src/snippets/` registered in `src/snippets/index.json`, with
 Markdown pulls them in with a ` ```snippet ` fence containing the snippet id, and ordinary code fences may use
 `{{variable}}` too. Two more fences: ` ```field ` (variable names, renders inline scratchpad inputs) and ` ```choice `
 (where the wizard places that step's question, so explanations can come first). Placeholders and filled values in code
-blocks are click-to-edit. The footer's "Last updated / Tested with GCCC" line comes from `src/data/site.ts`. Client-side code is vanilla TypeScript with no runtime dependencies: `src/scripts/wizard.ts`
+blocks are click-to-edit. Links to the Google Cloud console get `?project=<project_id>` once it is known, and may carry
+variables in the URL with a **fallback in the link title**: `[Edit subscription](https://console.cloud.google.com/cloudpubsub/subscription/edit/{{subscription_id}} "fallback: https://console.cloud.google.com/cloudpubsub/subscription/list")`.
+The build turns it into an `<a>` whose `href` is filled at runtime (values are URL-encoded); while any variable in the URL is unset
+the link points at the fallback. A templated link must have a `fallback:` title with a plain URL, only known variable names
+(the build fails otherwise), and plain link text. A field may also have a default (`DEFAULTS` in `src/data/scratchpad.ts`,
+e.g. `subscription_id` = `<topic_id>-sub`) that applies until the user types an override. Ordered lists split by a
+`data-paths-strict` block are renumbered after gating so the visible numbers stay sequential. The footer's "Last updated / Tested with GCCC" line comes from `src/data/site.ts`. Client-side code is vanilla TypeScript with no runtime dependencies: `src/scripts/wizard.ts`
 (the one-page flow, state in `localStorage`), `src/scripts/scratchpad-ui.ts`, and `src/lib/enhance.ts` (the single
 implementation of copy buttons, live placeholder fill, tabs and downloads for every code block). Steps are
 rendered into inert `<template>`s at build time and only the steps in the user's `PATH` are cloned into the page.

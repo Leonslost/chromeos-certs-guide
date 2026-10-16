@@ -188,7 +188,7 @@ export const trees: Record<string, Tree> = {
           'A **filter** (`ack_message_count{delivery_type=filter}` above 0 is the smoking gun) or the subscription is on a **different topic**.',
           'A healthy subscription prints **only** the `topic:` line. If a `filter:` line appears, or `topic` is wrong, everything is dropped silently.',
         ],
-        snippets: ['ts-sub-describe', 'ts-topic-iam'],
+        snippets: ['ts-sub-describe'],
       },
     ),
   },
