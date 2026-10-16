@@ -70,8 +70,40 @@ export function prepareCodeBlocks(root: ParentNode) {
     btn.className = 'copy-btn';
     btn.textContent = 'Copy';
     btn.setAttribute('aria-label', 'Copy code to clipboard');
-    pre.replaceWith(wrap);
-    wrap.append(pre, btn);
+
+    const fig = pre.closest('figure.snippet');
+    const cap = fig?.querySelector('figcaption');
+    if (cap) {
+      let actions = cap.querySelector<HTMLElement>('.snippet-header-actions');
+      if (!actions) {
+        actions = document.createElement('div');
+        actions.className = 'snippet-header-actions';
+        const lang = cap.querySelector('.snippet-lang');
+        if (lang) {
+          lang.replaceWith(actions);
+          actions.append(lang);
+        } else {
+          cap.append(actions);
+        }
+      }
+      actions.append(btn);
+      pre.replaceWith(wrap);
+      wrap.append(pre);
+    } else {
+      const header = document.createElement('div');
+      header.className = 'codeblock-header';
+      const code = pre.querySelector('code');
+      const langMatch = code?.className.match(/language-(\w+)/);
+      if (langMatch) {
+        const langSpan = document.createElement('span');
+        langSpan.className = 'snippet-lang';
+        langSpan.textContent = langMatch[1].toUpperCase();
+        header.append(langSpan);
+      }
+      header.append(btn);
+      pre.replaceWith(wrap);
+      wrap.append(header, pre);
+    }
   });
   // Inline code with a {{variable}} is filled too.
   root.querySelectorAll('code').forEach((code) => {
@@ -324,7 +356,10 @@ export function installGlobalHandlers() {
 
     const copyBtn = target.closest<HTMLButtonElement>('.copy-btn');
     if (copyBtn) {
-      const pre = copyBtn.parentElement?.querySelector('pre');
+      const pre =
+        copyBtn.closest('figure')?.querySelector('pre') ??
+        copyBtn.closest('.codeblock')?.querySelector('pre') ??
+        copyBtn.parentElement?.querySelector('pre');
       const ok = await copyText(pre?.textContent ?? '');
       copyBtn.textContent = ok ? 'Copied' : 'Copy failed';
       copyBtn.classList.toggle('copied', ok);
