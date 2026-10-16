@@ -27,7 +27,7 @@ ChromeOS asks for certificates through Google's Certificate Provisioning API. To
 
 <div data-ca="A">
 
-> **NDES callout.** The NDES server must **not** be the one running the Microsoft Intune Certificate Connector. Its policy module breaks standard SCEP, so use a separate NDES server.
+> **If you use Microsoft NDES:** it must **not** be the NDES server running the Microsoft Intune Certificate Connector. Its policy module breaks standard SCEP, so use a separate NDES server.
 
 </div>
 
