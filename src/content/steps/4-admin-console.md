@@ -9,19 +9,26 @@ officialLinks:
     url: https://support.google.com/chrome/a/answer/11053129
 ---
 
-Everything here is in the [Google Admin console](https://admin.google.com) under **Devices → Networks → Certificates**. Create the CA connection first, because the profile points at it.
+All of this is in the [Google Admin console](https://admin.google.com/ac/networks/) under **Devices → Networks → Certificates**. Create the CA connection before the profile.
 
-1. **Trust your CA** *(if devices don't already)*: **Certificates → Add certificate**, upload your CA's root (and issuing) certificate, and tick it for ChromeOS.
-2. **Create the CA connection:** **Certificate Authority connections → Add connection**. CA connections apply to the whole domain, not per OU. Enter:
+1. **Trust your CA** *(if devices don't already)*: [Certificates](https://admin.google.com/ac/networks/certificates/server-ca-certs) → **Add certificate**. Upload your root (and issuing) CA certificate and tick **Chromebook**.
+2. **Create the CA connection:** [Certificate authority connections](https://admin.google.com/ac/networks/certificates/ca-connections) → **Add connection**. It applies to the whole domain, not per OU.
    - **Name:** anything descriptive.
    - **Service account email:** {{connector_sa_email}}
-   - **Pub/Sub topic:** projects/{{project_id}}/topics/{{topic_id}} (the **topic**, not the subscription).
-   - **CA connection configuration identifier:** any short ID you choose. Then enter it here: {{ca_connection_id}}. It must match exactly in Step 5.
-3. **Create the certificate provisioning profile:** **Certificate provisioning profiles → Add profile**. Start with a pilot OU. Enter:
-   - **CA connection:** the one from the previous step.
-   - **Profile name:** anything descriptive. Then enter it here: {{profile_name}}
-   - **CA template name:** {{ca_template}} (leave empty if your CA doesn't use templates).
-   - Choose **user or device**, then the key type, key usage, subject name and renewal window to suit your CA.
+   - **Pub/Sub topic:** projects/{{project_id}}/topics/{{topic_id}}
+   - **CA connection configuration identifier:** any short ID. Enter it here: {{ca_connection_id}}. It must match exactly in Step 5.
+3. **Create the profile:** [Certificate provisioning profiles](https://admin.google.com/ac/networks/certificates/profiles). Select your pilot OU on the left → **Add profile**.
+   - **Referenced certificate authority connection:** the connection from step 2.
+   - **User** or **Device**.
+   - **Certificate provisioning profile name:** anything descriptive. Enter it here: {{profile_name}}
+   - **Days before expiry to initiate renewal:** 1–90.
+   - **Authentication type:** **None** (required for ChromeOS Flex) or **Remote attestation** (ChromeOS devices only).
+   - **Key usage:** tick **Key encipherment**, **Signing**, or both. At least one is required.
+   - **Subject common name:** `${DEVICE_SERIAL_NUMBER}` for device certificates, or `${USER_EMAIL}` for user certificates.
+   - **Organisation, OU, locality, state, country:** optional.
+   - **Subject alternative names:** optional.
+   - **Certificate template name:** {{ca_template}} (optional; leave empty if your CA doesn't use templates).
+   - **Encryption key type:** **RSA** or **ECC**. With ECC, the static SCEP challenge is sent to the device; with RSA it never leaves the server.
 
 <div data-paths-strict="DIY">
 
@@ -31,7 +38,7 @@ Building your own adapter? Use a **SCEP** connection and profile, so every profi
 
 <div data-paths-strict="SCEP">
 
-4. **Download the connector:** **Certificate Authority connections → Download connector**. You install it in Step 5.
+4. **Download the connector:** [Certificate authority connections](https://admin.google.com/ac/networks/certificates/ca-connections) → **Download connector**. You install it in Step 5.
 
 </div>
 
