@@ -37,10 +37,12 @@ officialLinks:
 
 ## How to know it's working
 
-In the Application event log (source `GoogleCloudCertificateConnector`), you should see the connector version and `Listening to requests...` with no Error:
+Open **Event Viewer → Windows Logs → Application** and filter on the source **GoogleCloudCertificateConnector**. After a start you should see the connector version and `Listening to requests...`, with no errors. Check here first whenever something seems wrong.
+
+Or from PowerShell:
 
 ```snippet
 ts-service-check
 ```
 
-Then, for real proof, enrol a test device in your pilot OU. **"Listening…" alone does not prove connectivity.** If a device keeps waiting, go to [Troubleshooting](/troubleshooting/).
+**Real proof:** sign in on a test device in the pilot OU (for a device profile, the device must be in the pilot OU; for a user profile, the user). A certificate should appear in `chrome://certificate-manager/clientcerts`. "Listening…" alone does not prove connectivity. If the device keeps waiting, go to [Troubleshooting](/troubleshooting/).
