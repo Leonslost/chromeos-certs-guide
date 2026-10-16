@@ -726,7 +726,10 @@ pre,
 .notice-na,
 table,
 .card,
-.check {
+.check,
+.ts-entry,
+.ts-jump-nav,
+.ts-legend {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -1740,7 +1743,8 @@ table,
   color: #ffffff;
 }
 
-.tfix {
+.tfix,
+.ts-fix {
   background: var(--success-bg);
   border: 1px solid var(--success-border);
   border-left: 4px solid var(--success);
@@ -1752,8 +1756,234 @@ table,
   line-height: 1.6;
 }
 
-.tfix strong {
+.tfix strong,
+.ts-fix strong {
   color: var(--success);
+}
+
+.ts-fix p {
+  margin: 0;
+  color: inherit;
+}
+
+.ts-fix p + p {
+  margin-top: 0.5rem;
+}
+
+/* ---- Troubleshooting Cards 1 & 2: Structured Entries ---- */
+
+.ts-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  margin: 1.25rem 0 1.5rem;
+  font-size: 0.85rem;
+}
+
+.ts-legend-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.ts-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.ts-legend-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ts-legend-item a:hover,
+a.ts-legend-item:hover {
+  color: var(--accent);
+}
+
+.ts-code-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 11px;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+/* Card 2: Jump-to index */
+.ts-jump-nav {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0 2rem;
+}
+
+.ts-jump-header {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ts-jump-header::before {
+  content: "";
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'%3E%3C/polygon%3E%3C/svg%3E") no-repeat center / contain;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'%3E%3C/polygon%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+.ts-jump-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.ts-jump-grp-title {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.25rem;
+}
+
+.ts-jump-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.ts-jump-list li {
+  margin-bottom: 0.3rem;
+}
+
+.ts-jump-list a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.ts-jump-list a:hover {
+  text-decoration: underline;
+}
+
+/* Scannable Entry Container */
+.ts-entry {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.4rem;
+  margin: 1.25rem 0;
+  box-shadow: var(--shadow-sm);
+  scroll-margin-top: 5rem;
+  transition: all 0.2s ease;
+}
+
+.ts-entry:target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2), var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.ts-entry h4.ts-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.ts-entry h4.ts-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ts-entry h4.ts-title a:hover {
+  color: var(--accent);
+}
+
+/* Verbatim "What you see" block */
+.ts-quote {
+  background: #f8f9fa;
+  border: 1px solid var(--border);
+  border-left: 3px solid #80868b;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.85rem;
+  margin: 0.65rem 0 0.85rem;
+}
+
+.ts-quote-label {
+  display: block;
+  font-size: 0.685rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.ts-quote code {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.825rem;
+  line-height: 1.5;
+  color: #1f2328;
+  background: transparent;
+  padding: 0;
+  border: none;
+  font-weight: 400;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ts-means {
+  margin: 0.6rem 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.ts-section-note {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: -0.5rem 0 1.25rem;
+}
+
+.ts-entry-muted {
+  background: var(--bg-subtle);
+  border-style: dashed;
+}
+
+.ts-note {
+  margin: 0.6rem 0 0.25rem;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
 }
 
 .outcomes {
@@ -1863,6 +2093,11 @@ table,
     grid-template-columns: 1fr;
     padding: 1rem 1.15rem;
   }
+
+  .ts-jump-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -1927,5 +2162,13 @@ table,
 
   .check {
     padding: 1.15rem;
+  }
+
+  .ts-entry {
+    padding: 1.15rem;
+  }
+
+  .ts-fix {
+    padding: 0.75rem 0.95rem;
   }
 }
