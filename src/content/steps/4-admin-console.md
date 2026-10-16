@@ -11,7 +11,7 @@ officialLinks:
 
 All of this is in the [Google Admin console](https://admin.google.com/ac/networks/) under **Devices → Networks → Certificates**. Create the CA connection before the profile.
 
-1. **Trust your CA** *(if devices don't already)*: [Certificates](https://admin.google.com/ac/networks/certificates/server-ca-certs) → **Add certificate**. Upload your root (and issuing) CA certificate and tick **Chromebook**.
+1. **Trust your CA** *(if devices don't already)*: [Certificates](https://admin.google.com/ac/networks/certificates/server-ca-certs) → **Add certificate**. Upload your root (and issuing) CA certificate and tick **Enabled for Chromebook**.
 2. **Create the CA connection:** [Certificate authority connections](https://admin.google.com/ac/networks/certificates/ca-connections) → **Add connection**. It applies to the whole domain, not per OU.
    - **Name:** anything descriptive.
    - **Service account email:** {{connector_sa_email}}
@@ -44,7 +44,10 @@ Building your own adapter? Use a **SCEP** connection and profile, so every profi
 
 ## How to know it's working
 
-The CA connection and profile are both listed, and a test device in the pilot OU shows `RequiredClientCertificateForDevice` or `RequiredClientCertificateForUser` in `chrome://policy`.
+On a test device in the pilot OU:
+
+- `chrome://policy` shows **RequiredClientCertificateForDevice** (device profile, device in the pilot OU) or **RequiredClientCertificateForUser** (user profile, user in the pilot OU).
+- `chrome://certificate-manager/clientcerts` lists the profile.
 
 <div id="handoff" data-paths-strict="DIY">
 
