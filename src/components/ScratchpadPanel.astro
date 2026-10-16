@@ -1,0 +1,38 @@
+---
+// Static shell; fields are rendered client-side for the current PATH (src/scripts/scratchpad-ui.ts).
+---
+<details class="scratchpad" data-scratchpad open>
+  <summary class="sp-header">
+    <div class="sp-header-title">
+      <svg class="sp-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 20h9"></path>
+        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+      </svg>
+      <h2 id="sp-title">Scratchpad</h2>
+      <div class="sp-help-wrap">
+        <button
+          type="button"
+          class="sp-help-btn"
+          aria-label="About the scratchpad"
+          aria-describedby="sp-help-tooltip"
+        >?</button>
+        <div id="sp-help-tooltip" class="sp-help-tooltip" role="tooltip">
+          Values you enter fill every snippet on this site. Stored only in this browser.{' '}
+          <strong>Never enter secrets</strong>: key contents and challenges stay on your server.
+        </div>
+      </div>
+    </div>
+    <span class="sp-toggle-action">
+      <svg class="sp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </span>
+  </summary>
+  <div class="sp-body">
+    <div data-sp-fields></div>
+    <div class="sp-actions">
+      <button type="button" class="btn btn-secondary" data-sp-export>Export as Markdown</button>
+      <button type="button" class="btn btn-quiet" data-sp-reset>Clear all</button>
+    </div>
+  </div>
+</details>

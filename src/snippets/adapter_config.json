@@ -1,0 +1,16 @@
+{
+  "adapter_configuration": {
+    "request_subscriptions": [
+      "projects/{{project_id}}/subscriptions/{{subscription_id}}"
+    ],
+    "key_filename": "service_account.json"
+  },
+  "ca_configurations": [
+    {
+      "type": "SCEP",
+      "ca_connection_config_id": "{{ca_connection_id}}",
+      "ca_endpoint_url": "{{scep_url}}",
+      "challenge_filename": "challenge.txt"
+    }
+  ]
+}

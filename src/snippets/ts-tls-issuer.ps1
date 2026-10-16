@@ -1,0 +1,1 @@
+$t=New-Object Net.Sockets.TcpClient('pubsub.googleapis.com',443); $s=New-Object Net.Security.SslStream($t.GetStream(),$false,{$true}); $s.AuthenticateAsClient('pubsub.googleapis.com'); ([Security.Cryptography.X509Certificates.X509Certificate2]$s.RemoteCertificate).Issuer; $t.Close()

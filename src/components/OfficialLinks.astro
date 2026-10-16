@@ -1,0 +1,14 @@
+---
+interface Props {
+  links?: { label: string; url: string }[];
+}
+const { links = [] } = Astro.props;
+---
+{links.length > 0 && (
+  <aside class="official-links" aria-label="Official documentation">
+    <h3>Official documentation</h3>
+    <ul>
+      {links.map((l) => <li><a href={l.url} rel="noopener">{l.label}</a></li>)}
+    </ul>
+  </aside>
+)}

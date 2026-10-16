@@ -1,0 +1,8 @@
+---
+import { snippetHtml } from '../lib/snippet-html.mjs';
+
+interface Props {
+  id: string;
+}
+---
+<Fragment set:html={snippetHtml(Astro.props.id)} />

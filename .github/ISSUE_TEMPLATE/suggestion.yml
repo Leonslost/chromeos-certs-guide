@@ -1,0 +1,27 @@
+name: Suggest a change or addition
+description: Propose a correction, a missing topic, or a better explanation.
+labels: ["suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a community guide, not official Google documentation. Suggestions that link to official Google documentation or reproducible results are the easiest to act on.
+        **Do not paste secrets** (private keys, service account files, passwords, tokens).
+  - type: input
+    id: where
+    attributes:
+      label: Where in the guide?
+      description: A step, a troubleshooting card, or "new topic".
+      placeholder: "e.g. Step 3: Pub/Sub"
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Your suggestion
+      description: What should change or be added, and why.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources (optional)
+      description: Links to official documentation or other evidence.

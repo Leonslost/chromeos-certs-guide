@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ScratchpadPanel from '../components/ScratchpadPanel.astro';
+import OfficialLinks from '../components/OfficialLinks.astro';
+import ReportLink from '../components/ReportLink.astro';
+import { stepReportUrl } from '../lib/report';
+import { loadSteps } from '../lib/content';
+
+const steps = await loadSteps();
+---
+<Layout title="Guide" section="guide">
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar">
+      <nav class="step-nav" id="step-nav" aria-label="Your path">
+        <h2>Your path</h2>
+        <div data-nav-body></div>
+      </nav>
+      <ScratchpadPanel />
+    </aside>
+
+    <main class="content" id="main">
+      <h1>Get a client certificate onto a ChromeOS device</h1>
+      <noscript><p class="notice-na">This guide needs JavaScript to show only the steps that apply to you.</p></noscript>
+      <div id="wizard-steps"></div>
+    </main>
+  </div>
+
+  {/*
+    Every step is rendered at build time into an inert <template>. The wizard clones only the
+    steps in the user's PATH, so steps that do not apply are never rendered.
+  */}
+  {steps.map(({ entry, Content }) => (
+    <template data-step-id={entry.id} data-title={entry.data.title} data-order={entry.data.order}>
+      <section class="step" id={`step-${entry.id}`}>
+        <header class="step-header">
+          <p class="step-kicker">Step {entry.data.order}</p>
+          <h2>{entry.data.title}</h2>
+        </header>
+        <div class="prose"><Content /></div>
+        <OfficialLinks links={entry.data.officialLinks} />
+        <ReportLink href={stepReportUrl(entry.data.order, entry.data.title)} />
+      </section>
+    </template>
+  ))}
+
+  <script>
+    import '../scripts/wizard';
+  </script>
+</Layout>

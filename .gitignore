@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+.DS_Store
+# Playwright / test artefacts
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+.playwright-mcp/
+coverage/

@@ -1,0 +1,8 @@
+---
+interface Props {
+  href: string;
+  label?: string;
+}
+const { href, label = 'Report a problem with this step' } = Astro.props;
+---
+<p class="report-link"><a href={href} rel="noopener" target="_blank">{label}</a></p>

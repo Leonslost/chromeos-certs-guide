@@ -1,0 +1,56 @@
+name: Problem with a step
+description: Something in the guide is wrong, unclear, or did not work for you.
+labels: ["content"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the guide. This is a community guide, not official Google documentation, and the maintainers cannot give general support for your environment.
+        **Do not paste secrets** (private keys, `service_account.json` contents, SCEP challenge passwords, tokens). Redact hostnames and IDs you do not want public.
+  - type: dropdown
+    id: step
+    attributes:
+      label: Which step?
+      options:
+        - "Step 1: Which CA?"
+        - "Step 2: Do you need a SCEP server?"
+        - "Step 3: Pub/Sub"
+        - "Step 4: Google Admin console"
+        - "Step 5: Google Cloud Certificate Connector (GCCC)"
+        - Troubleshooting
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: ca_path
+    attributes:
+      label: Your CA and path
+      description: Which CA you use and which path the guide gave you (SCEP, DIY or vendor).
+      placeholder: "e.g. Microsoft AD CS with NDES, SCEP path"
+    validations:
+      required: true
+  - type: textarea
+    id: did
+    attributes:
+      label: What you did
+      description: The steps you followed, and the values or commands you used (redacted).
+    validations:
+      required: true
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened
+      description: What you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Error text or log lines
+      description: Paste the exact message, if there is one.
+      render: text
+  - type: input
+    id: gccc_version
+    attributes:
+      label: GCCC version (optional)
+      placeholder: "e.g. 5.23"

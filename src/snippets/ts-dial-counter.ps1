@@ -1,0 +1,1 @@
+Get-WinEvent -FilterHashtable @{LogName='Application';ProviderName='GoogleCloudCertificateConnector';StartTime=(Get-Date).AddHours(-6)} | ? Message -like '*ProxyContextDialer called*' | Group-Object { $_.TimeCreated.ToString('yyyy-MM-dd HH:00') } | Sort Name | ft Name,Count

@@ -1,0 +1,46 @@
+---
+// Per-symptom card body: every check and result from the tree data, as static HTML
+// (no toggles, so browser find (Ctrl-F) sees everything).
+import { inlineMd } from '../lib/inline-md';
+import { flatten, numbering, type Tree } from '../data/troubleshooting';
+import Snippet from './Snippet.astro';
+
+interface Props {
+  tree: Tree;
+}
+const { tree } = Astro.props;
+const labels = numbering(tree);
+const nodes = flatten(tree);
+const target = (id: string) => {
+  const n = tree.nodes[id];
+  return { label: labels[id], text: n.kind === 'question' ? n.question : n.title };
+};
+---
+<div class="checks">
+  {nodes.map((node) => (
+    <article class:list={['check', node.kind === 'verdict' && 'check-result']} id={`c-${node.id}`}>
+      {node.kind === 'question' ? (
+        <>
+          <h4><span class="tlabel">{labels[node.id]}</span> {node.question}</h4>
+          {node.help.map((p) => <p set:html={inlineMd(p)} />)}
+          {node.snippets?.map((s) => <Snippet id={s} />)}
+          <ul class="outcomes">
+            <li><strong>{node.yesLabel ?? 'Yes'}</strong> → <a href={`#c-${node.yes}`}>{target(node.yes).label}: {target(node.yes).text}</a></li>
+            <li><strong>{node.noLabel ?? 'No'}</strong> → <a href={`#c-${node.no}`}>{target(node.no).label}: {target(node.no).text}</a></li>
+          </ul>
+        </>
+      ) : (
+        <>
+          <h4><span class="tlabel">{labels[node.id]}</span> {node.title}</h4>
+          {node.text.map((p) => <p set:html={inlineMd(p)} />)}
+          {node.fix && (
+            <p class="tfix">
+              <strong>Fix:</strong> <Fragment set:html={inlineMd(node.fix.text)} />
+            </p>
+          )}
+          {node.snippets?.map((s) => <Snippet id={s} />)}
+        </>
+      )}
+    </article>
+  ))}
+</div>
