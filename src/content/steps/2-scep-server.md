@@ -18,6 +18,9 @@ officialLinks:
   - label: Code samples
     url: https://developers.google.com/chrome/management/guides/samples_certprovisioningapi
     paths: [DIY]
+  - label: "Public example: Leonslost/chromeos-certprov-example"
+    url: https://github.com/Leonslost/chromeos-certprov-example
+    paths: [DIY]
 ---
 
 ChromeOS asks for certificates through Google's Certificate Provisioning API. To bridge that API to your CA, the Google Cloud Certificate Connector (GCCC) talks SCEP to a SCEP server. This guide does not explain how to configure a SCEP server: it tells you whether you need one and links to the vendor's own documentation.
