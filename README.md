@@ -40,7 +40,7 @@ Markdown plugin (`src/plugins/remark-snippets.mjs`). After editing the plugin, s
 
 ## Architecture
 
-Logic, content and snippets are kept apart. **Flow data** (the Step 1 / Step 2 decision nodes, the `PATH` each
+Logic, content and snippets are kept apart. **Flow data** (the CA and SCEP-server decision nodes, the `PATH` each
 option sets, and which steps each `PATH` sees) lives in `src/data/flow.ts`; the scratchpad fields and derived
 values live in `src/data/scratchpad.ts`; troubleshooting decision trees live in `src/data/troubleshooting.ts`
 and feed both the flowchart and the card view. **Content** is Markdown with front-matter (`title`, `order`,
@@ -61,7 +61,11 @@ e.g. `subscription_id` = `<topic_id>-sub`) that applies until the user types an 
 (the one-page flow, state in `localStorage`), `src/scripts/scratchpad-ui.ts`, and `src/lib/enhance.ts` (the single
 implementation of copy buttons, live placeholder fill, tabs and downloads for every code block). Steps are
 rendered into inert `<template>`s at build time and only the steps in the user's `PATH` are cloned into the page.
-Gating attributes in content: `data-paths`, `data-paths-strict`, `data-ca`.
+Gating attributes in content: `data-paths`, `data-paths-strict`, `data-ca`, `data-answer="node:option"` and `data-not-answer="node:option"`
+(by flow answer). A whole step can be answer-gated: `stepWhen` in `src/data/flow.ts` and the step's `when` front-matter must agree (the
+build checks), as for the *Set up Microsoft NDES* step, and scratchpad fields can be answer-gated with `when`. Step numbers are
+therefore computed from the user's path at runtime, so content refers to steps by name rather than number, and the "Report a
+problem" dropdown in `.github/ISSUE_TEMPLATE/step-problem.yml` uses the plain step titles (the build fails if a title is missing there).
 
 ## Licence
 

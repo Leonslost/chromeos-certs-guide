@@ -10,6 +10,7 @@
   "gcloud-verify-topic": { "file": "gcloud-verify-topic.sh", "title": "Read back: the topic" },
   "gcloud-verify-subscription": { "file": "gcloud-verify-subscription.sh", "title": "Read back: the subscription" },
   "gcloud-verify-iam": { "file": "gcloud-verify-iam.sh", "title": "Read back: the publisher and subscriber grants" },
+  "ndes-config": { "file": "ndes-config.ps1", "title": "Configure NDES (registry and IIS)", "paths": ["SCEP"] },
   "scep-check": { "file": "scep-check.ps1", "title": "Check the SCEP URL from the GCCC box" },
   "challenge-txt": { "file": "challenge-txt.ps1", "title": "Create challenge.txt (no trailing newline)" },
   "adapter-config": { "file": "adapter_config.json", "title": "adapter_config.json", "download": "adapter_config.json" },

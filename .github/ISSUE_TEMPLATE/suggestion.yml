@@ -12,7 +12,7 @@ body:
     attributes:
       label: Where in the guide?
       description: A step, a troubleshooting card, or "new topic".
-      placeholder: "e.g. Step 3: Pub/Sub"
+      placeholder: "e.g. Pub/Sub"
   - type: textarea
     id: suggestion
     attributes:

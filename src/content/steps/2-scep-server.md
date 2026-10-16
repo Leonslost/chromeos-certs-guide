@@ -44,16 +44,15 @@ ChromeOS asks for certificates through Google's Certificate Provisioning API. To
 ```choice
 ```
 
-<div data-answer="scep-or-diy:scep">
+<div data-answer="scep-or-diy:scep adcs-scep-product:other" data-not-answer="adcs-scep-product:ndes">
 
 ## SCEP solutions
 
 Follow the vendor's documentation to set one up. All are products we know first-hand.
 
 <ul>
-<li data-ca="A"><strong><a href="https://support.google.com/chrome/a/answer/11338941" rel="noopener">Microsoft NDES</a> (Recommended)</strong>. Google publishes a guide: <a href="https://support.google.com/chrome/a/answer/11338941" rel="noopener">SCEP with Microsoft NDES</a>.</li>
 <li><strong><a href="https://docs.scepman.com/certificate-management/static-certificates/google-workspace/chromeos" rel="noopener">SCEPman</a></strong></li>
-<li><strong><a href="https://securew2.com/documentation/google/chromeos-api-google-certificate-provisioning" rel="noopener">SecureW2</a></strong>. SecureW2 also offers the native Certificate Provisioning API path. Use that first: go back to Step 1 and choose the native Certificate Provisioning API option.</li>
+<li><strong><a href="https://securew2.com/documentation/google/chromeos-api-google-certificate-provisioning" rel="noopener">SecureW2</a></strong>. SecureW2 also offers the native Certificate Provisioning API path. Use that first: go back to the first step and choose the native Certificate Provisioning API option.</li>
 <li><strong><a href="https://docs.keyfactor.com/ejbca/latest/enrolling-chrome-os-devices-against-ejbca" rel="noopener">Keyfactor EJBCA</a></strong></li>
 <li><strong><a href="https://www.venafi.com/" rel="noopener">Venafi</a></strong></li>
 <li><strong><a href="https://smallstep.com/docs/step-ca/" rel="noopener">step-ca</a></strong> (Smallstep) as a SCEP RA in front of another CA. This is what our test bench runs.</li>
@@ -65,15 +64,21 @@ Follow the vendor's documentation to set one up. All are products we know first-
 
 ## Building your own
 
-You will build an adapter on the Certificate Provisioning API. This guide only gives pointers (Step 4 hand-off), not build instructions.
+You will build an adapter on the Certificate Provisioning API. This guide only gives pointers (see the hand-off at the end), not build instructions.
 
 </div>
 
-<div data-paths-strict="SCEP">
+<div data-answer="adcs-scep-product:ndes">
+
+**Next:** the *Set up Microsoft NDES* step walks you through it.
+
+</div>
+
+<div data-paths-strict="SCEP" data-not-answer="adcs-scep-product:ndes">
 
 ## Enter your SCEP URL
 
-Enter the SCEP server's URL (used in Step 5). If your CA uses certificate templates, also enter the template name (used in Step 4).
+Enter the SCEP server's URL (used in the connector step). If your CA uses certificate templates, also enter the template name (used in the Admin console step).
 
 ```field
 scep_url ca_template

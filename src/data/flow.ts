@@ -14,16 +14,28 @@ export type PathId = (typeof PATHS)[number];
 export const STEP = {
   ca: '1-ca-choice',
   scep: '2-scep-server',
+  ndes: '2b-ndes',
   pubsub: '3-pubsub',
   console: '4-admin-console',
   gccc: '5-gccc',
 } as const;
 
-/** Which steps each PATH sees, in order. */
+/** Every step a PATH can see, in order (steps listed in `stepWhen` are further limited by an answer). */
 export const pathSteps: Record<PathId, string[]> = {
   VENDOR: [STEP.ca, STEP.pubsub],
-  SCEP: [STEP.ca, STEP.scep, STEP.pubsub, STEP.console, STEP.gccc],
+  SCEP: [STEP.ca, STEP.scep, STEP.ndes, STEP.pubsub, STEP.console, STEP.gccc],
   DIY: [STEP.ca, STEP.scep, STEP.pubsub, STEP.console],
+};
+
+/** Steps shown only when an answer was given: step id → "<node id>:<option id>". Mirrored by the step's `when` front-matter. */
+export const stepWhen: Record<string, string> = {
+  [STEP.ndes]: 'adcs-scep-product:ndes',
+};
+
+/** True when `answer` ("<node id>:<option id>") is among the given answers. */
+export const hasAnswer = (answers: Record<string, string>, answer: string) => {
+  const [node, option] = answer.split(':');
+  return answers[node] === option;
 };
 
 export const pathInfo: Record<PathId, { label: string; summary: string }> = {
@@ -50,6 +62,8 @@ export interface FlowOption {
   setsPath?: PathId;
   /** Non-terminal option: id of the next node. */
   next?: string;
+  /** If an earlier answer matches, continue at `next` instead of ending here (the option's `setsPath` still applies otherwise). */
+  branch?: { node: string; option: string; next: string };
   links?: { label: string; url: string }[];
 }
 
@@ -118,8 +132,20 @@ export const nodes: Record<string, FlowNode> = {
     step: STEP.scep,
     prompt: 'Use an existing SCEP product, or build your own adapter?',
     options: [
-      { id: 'scep', label: 'A SCEP solution', setsPath: 'SCEP' },
+      // AD CS customers get one more question: NDES (walked through in its own step) or another product.
+      { id: 'scep', label: 'A SCEP solution', setsPath: 'SCEP', branch: { node: 'ca', option: 'A', next: 'adcs-scep-product' } },
       { id: 'diy', label: 'Build my own adapter on the Certificate Provisioning API', setsPath: 'DIY' },
+    ],
+  },
+
+  // ---- Step 2, question 3: AD CS only ----
+  'adcs-scep-product': {
+    id: 'adcs-scep-product',
+    step: STEP.scep,
+    prompt: 'Which SCEP server will you use?',
+    options: [
+      { id: 'ndes', label: 'Set up Microsoft NDES (recommended)', setsPath: 'SCEP' },
+      { id: 'other', label: 'Another SCEP product', setsPath: 'SCEP' },
     ],
   },
 };
@@ -152,6 +178,11 @@ export function resolveFlow(raw: Answers): Resolved {
     const option: FlowOption | undefined = current.options.find((o) => o.id === raw[current.id]);
     if (!option) break; // unanswered (or stale answer): stop here
     answers[current.id] = option.id;
+    const b = option.branch;
+    if (b && answers[b.node] === b.option) {
+      node = nodes[b.next];
+      continue;
+    }
     if (option.setsPath) {
       path = option.setsPath;
       break;
@@ -161,7 +192,7 @@ export function resolveFlow(raw: Answers): Resolved {
 
   let steps: string[];
   if (path) {
-    steps = pathSteps[path];
+    steps = pathSteps[path].filter((id) => !stepWhen[id] || hasAnswer(answers, stepWhen[id]));
   } else {
     // Path not known yet: Step 1, plus Step 2 once a Step 1 answer led to a Step 2 question.
     const steps2 = chain.some((n) => n.step === STEP.scep);

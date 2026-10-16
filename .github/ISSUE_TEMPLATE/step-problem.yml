@@ -12,11 +12,12 @@ body:
     attributes:
       label: Which step?
       options:
-        - "Step 1: Which CA?"
-        - "Step 2: Do you need a SCEP server?"
-        - "Step 3: Pub/Sub"
-        - "Step 4: Google Admin console"
-        - "Step 5: Google Cloud Certificate Connector (GCCC)"
+        - "Which CA?"
+        - "Do you need a SCEP server?"
+        - "Set up Microsoft NDES"
+        - "Pub/Sub"
+        - "Google Admin console"
+        - "Google Cloud Certificate Connector (GCCC)"
         - Troubleshooting
         - Other
     validations:

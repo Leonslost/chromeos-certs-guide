@@ -44,7 +44,7 @@ export function clearState() {
  */
 export function normalize(state: State): { state: State; resolved: Resolved } {
   const resolved = resolveFlow(state.answers);
-  const keep = new Set(fieldsForPath(resolved.path).map((f) => f.key));
+  const keep = new Set(fieldsForPath(resolved.path, resolved.answers).map((f) => f.key));
   const values: Values = {};
   for (const [k, v] of Object.entries(state.values)) {
     // Keep unknown-path values untouched until a path is chosen.

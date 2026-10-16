@@ -24,14 +24,17 @@ const list = (el: Element, attr: string) => (el.getAttribute(attr) ?? '').split(
  * data-paths-strict="VENDOR"    keep only if PATH is known and listed
  * data-ca="A B"                 keep only if the Step 1 answer is listed
  * data-answer="node:option ..."  keep only if any listed answer was given (flow node id : option id)
+ * data-not-answer="node:option ..."  drop if any listed answer was given
  */
 export function gate(root: ParentNode, ctx: GateCtx) {
-  root.querySelectorAll('[data-paths],[data-paths-strict],[data-ca],[data-answer]').forEach((el) => {
+  root.querySelectorAll('[data-paths],[data-paths-strict],[data-ca],[data-answer],[data-not-answer]').forEach((el) => {
     const paths = el.hasAttribute('data-paths') ? list(el, 'data-paths') : undefined;
     const strict = el.hasAttribute('data-paths-strict') ? list(el, 'data-paths-strict') : undefined;
     const cas = el.hasAttribute('data-ca') ? list(el, 'data-ca') : undefined;
     const wanted = el.hasAttribute('data-answer') ? list(el, 'data-answer') : undefined;
+    const unwanted = el.hasAttribute('data-not-answer') ? list(el, 'data-not-answer') : undefined;
     const drop =
+      (unwanted && unwanted.some((w) => ctx.answers?.[w.split(':')[0]] === w.split(':')[1])) ||
       (wanted && !wanted.some((w) => ctx.answers?.[w.split(':')[0]] === w.split(':')[1])) ||
       (paths && ctx.path && !paths.includes(ctx.path)) ||
       (strict && !(ctx.path && strict.includes(ctx.path))) ||

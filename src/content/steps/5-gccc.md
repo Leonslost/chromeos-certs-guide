@@ -20,12 +20,14 @@ officialLinks:
 ## Install
 
 1. **Download and install the connector:** [Google Cloud Certificate Connector](https://tools.google.com/dlpage/certificate_connector). Run the installer as Administrator.
-2. **Add the key:** copy `service_account.json` from Step 3 into `C:\Program Files\Google\Google Cloud Certificate Connector\`.
+2. **Add the key:** copy `service_account.json` from the Pub/Sub step into `C:\Program Files\Google\Google Cloud Certificate Connector\`.
 3. **Create `challenge.txt`** in the same folder. It holds your SCEP server's static challenge, with no trailing newline. Run this in PowerShell as Administrator; it prompts for the value:
 
    ```snippet
    challenge-txt
    ```
+
+   <span data-answer="adcs-scep-product:ndes">Use the password from <code>mscep_admin</code> (NDES step).</span>
 
 4. **Add `adapter_config.json`** to the same folder. Copy it, or download it.
 

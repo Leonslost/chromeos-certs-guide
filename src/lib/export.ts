@@ -19,7 +19,7 @@ export function exportMarkdown(state: State, resolved: Resolved, stepTitles: Rec
     lines.push('');
     lines.push('## Values', '', '| Variable | Value |', '| --- | --- |');
     const unset = '_not set_';
-    for (const f of fieldsForPath(resolved.path)) {
+    for (const f of fieldsForPath(resolved.path, resolved.answers)) {
       const explicit = state.values[f.key]?.trim();
       const dflt = explicit ? undefined : defaultFor(f.key, state.values);
       lines.push(`| \`${f.key}\` | ${explicit ? `\`${explicit}\`` : dflt ? `\`${dflt}\` (default)` : unset} |`);

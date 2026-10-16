@@ -30,15 +30,15 @@ const steps = await loadSteps();
     steps in the user's PATH, so steps that do not apply are never rendered.
   */}
   {steps.map(({ entry, Content }) => (
-    <template data-step-id={entry.id} data-title={entry.data.title} data-order={entry.data.order}>
+    <template data-step-id={entry.id} data-title={entry.data.title}>
       <section class="step" id={`step-${entry.id}`}>
         <header class="step-header">
-          <p class="step-kicker">Step {entry.data.order}</p>
+          <p class="step-kicker">Step <span data-step-num></span></p>
           <h2>{entry.data.title}</h2>
         </header>
         <div class="prose"><Content /></div>
         <OfficialLinks links={entry.data.officialLinks} />
-        <ReportLink href={stepReportUrl(entry.data.order, entry.data.title)} />
+        <ReportLink href={stepReportUrl(entry.data.title)} />
       </section>
     </template>
   ))}

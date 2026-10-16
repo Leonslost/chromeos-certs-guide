@@ -14,10 +14,8 @@ const panel = document.querySelector<HTMLElement>('[data-scratchpad]')!;
 const base = document.body.dataset.base ?? '/';
 
 const templates = Array.from(document.querySelectorAll<HTMLTemplateElement>('template[data-step-id]'));
-const titleOf = (id: string) => {
-  const t = templates.find((x) => x.dataset.stepId === id);
-  return t ? `${t.dataset.order}. ${t.dataset.title}` : id;
-};
+// Step numbers are positions in the user's path (an answer-gated step such as NDES shifts the later ones).
+const titleOf = (id: string) => templates.find((x) => x.dataset.stepId === id)?.dataset.title ?? id;
 
 let state: State = loadState();
 let resolved: Resolved;
@@ -60,7 +58,9 @@ function renderQuestions(host: HTMLElement, stepId: string) {
 }
 
 function renderNav() {
-  const items = resolved.steps.map((id) => el('li', {}, el('a', { href: `#step-${id}`, textContent: titleOf(id) })));
+  const items = resolved.steps.map((id, i) =>
+    el('li', {}, el('a', { href: `#step-${id}`, textContent: `${i + 1}. ${titleOf(id)}` })),
+  );
   if (resolved.path) {
     const h = handoff[resolved.path];
     items.push(
@@ -80,10 +80,11 @@ function renderNav() {
 
 function renderMain() {
   main.replaceChildren();
-  for (const id of resolved.steps) {
+  for (const [index, id] of resolved.steps.entries()) {
     const tpl = templates.find((t) => t.dataset.stepId === id);
     if (!tpl) continue;
     const frag = tpl.content.cloneNode(true) as DocumentFragment;
+    frag.querySelectorAll('[data-step-num]').forEach((n) => (n.textContent = String(index + 1)));
     const host = frag.querySelector<HTMLElement>('[data-flow-host]');
     if (host) renderQuestions(host, id);
     enhance(frag, { path: resolved.path, ca: resolved.answers.ca, answers: resolved.answers }, state.values);

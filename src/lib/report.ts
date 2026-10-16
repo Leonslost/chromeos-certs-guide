@@ -7,9 +7,9 @@ import { site } from '../data/site';
 
 export const TROUBLESHOOTING_OPTION = 'Troubleshooting';
 
-export function stepOption(order: number, title: string): string {
-  return `Step ${order}: ${title}`;
-}
+/** Step numbers depend on the user's path, so the dropdown options are the plain step titles. */
+export const stepOption = (title: string) => title;
+export const reportOptions = (stepTitles: string[]) => [...stepTitles.map(stepOption), TROUBLESHOOTING_OPTION];
 
 export function reportUrl(opts: { option: string; titlePrefix: string }): string {
   const q = new URLSearchParams({
@@ -21,8 +21,7 @@ export function reportUrl(opts: { option: string; titlePrefix: string }): string
   return `${site.repo}/issues/new?${q.toString().replace(/\+/g, '%20')}`;
 }
 
-export const stepReportUrl = (order: number, title: string) =>
-  reportUrl({ option: stepOption(order, title), titlePrefix: `[Step ${order}] ${title}: ` });
+export const stepReportUrl = (title: string) => reportUrl({ option: stepOption(title), titlePrefix: `[${title}] ` });
 
 export const cardReportUrl = (title: string) =>
   reportUrl({ option: TROUBLESHOOTING_OPTION, titlePrefix: `[Troubleshooting] ${title}: ` });

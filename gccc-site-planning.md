@@ -389,6 +389,10 @@ before it reaches production.
 | 23 | Step 3: no prerequisites list; values entered right after the step that creates them; console links carry `?project=` from the scratchpad; failures go in an "If something fails" section linked from the steps | Fewer steps up front; GCP adds random characters to project IDs; errors are troubleshooting, not prerequisites |
 | 24 | List NDES as "Microsoft NDES" | Clarity |
 | 25 | No billing step or billing troubleshooting entry | Tested: a project without billing can enable the APIs and run this setup (official docs list billing as a requirement) |
+| 26 | New step **"Set up Microsoft NDES"** (AD CS → no SCEP → SCEP solution → NDES), between Step 2 and Pub/Sub; step numbers are worked out per path | NDES setup is the number 1 customer pain point; too long to sit inside Step 2 |
+| 27 | NDES: set **all three** MSCEP template values (Encryption, GeneralPurpose, Signature) to the template; `UseSinglePassword = 1`; SCEP app pool identity = service account, Integrated pipeline, Load User Profile; `iisreset`. Click-through plus a generated PowerShell tab | NDES picks the template by the key usage chosen in the Admin console profile; the post-install part is where customers go wrong by hand |
+| 28 | The static challenge is read from `mscep_admin` in the NDES step and **not stored** in the scratchpad; the connector step's `challenge.txt` instruction points back to it on the NDES path | Secrets never touch the site |
+| 29 | `scep_url` defaults to `http://<ndes_host>/certsrv/mscep/mscep.dll` on the NDES path | NDES users never type the URL |
 
 ---
 

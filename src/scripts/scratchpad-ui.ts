@@ -14,7 +14,7 @@ export function renderScratchpad(root: HTMLElement, state: State, path: PathId |
   const host = root.querySelector<HTMLElement>('[data-sp-fields]');
   if (!host) return;
   const fields = path
-    ? fieldsForPath(path)
+    ? fieldsForPath(path, state.answers)
     : opts.commonWhenUnknown
       ? FIELDS.filter((f) => f.paths.length === PATHS.length)
       : [];

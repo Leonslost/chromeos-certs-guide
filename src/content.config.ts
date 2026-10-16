@@ -6,7 +6,10 @@ import { PATHS } from './data/flow';
 /** Front-matter shared by steps and troubleshooting cards. */
 const schema = z.object({
   title: z.string(),
-  order: z.number().int(),
+  /** Sort key only (step numbers shown on the site are computed from the user's path). */
+  order: z.number(),
+  /** Step is shown only when this answer was given ("<flow node id>:<option id>"); must match `stepWhen` in flow.ts. */
+  when: z.string().optional(),
   /** PATH values this entry is shown to. */
   paths: z.array(z.enum(PATHS)).min(1),
   officialLinks: z

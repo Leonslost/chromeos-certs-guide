@@ -26,7 +26,7 @@ Use either route.
 
 <div data-paths-strict="SCEP">
 
-4. **Create a key:** in the service account list, **⋮** on {{connector_sa_email}} → **Manage keys** → **Add key** → **Create new key** → **JSON** → **Create**. Rename the downloaded file to `service_account.json` for Step 5. Fails? See [Key creation disabled](#key-creation-disabled).
+4. **Create a key:** in the service account list, **⋮** on {{connector_sa_email}} → **Manage keys** → **Add key** → **Create new key** → **JSON** → **Create**. Rename the downloaded file to `service_account.json` for the connector step. Fails? See [Key creation disabled](#key-creation-disabled).
 
 </div>
 
@@ -47,7 +47,7 @@ gcloud-create-project gcloud-enable-apis gcloud-create-sa gcloud-grant-subscribe
 
 Publisher grant fails? See [Domain restricted sharing](#domain-restricted-sharing).
 
-<p data-paths-strict="SCEP">Download <code>service_account.json</code> (⋮ menu → <strong>Download</strong>) for Step 5. Key creation fails? See <a href="#key-creation-disabled">Key creation disabled</a>.</p>
+<p data-paths-strict="SCEP">Download <code>service_account.json</code> (⋮ menu → <strong>Download</strong>) for the connector step. Key creation fails? See <a href="#key-creation-disabled">Key creation disabled</a>.</p>
 
 ```snippet
 gcloud-create-topic gcloud-create-subscription

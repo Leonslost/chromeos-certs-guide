@@ -11,14 +11,14 @@ officialLinks:
 
 All of this is in the [Google Admin console](https://admin.google.com/ac/networks/) under **Devices → Networks → Certificates**. Create the CA connection before the profile.
 
-1. **Trust your CA** *(if devices don't already)*: [Certificates](https://admin.google.com/ac/networks/certificates/server-ca-certs) → **Add certificate**. Upload your root (and issuing) CA certificate and tick **Enabled for Chromebook**.
+1. **Trust your CA** *(if devices don't already)*: [Certificates](https://admin.google.com/ac/networks/certificates/server-ca-certs) → **Add certificate**. Upload your root (and issuing) CA certificate<span data-answer="adcs-scep-product:ndes"> (the root CA certificate you exported in the NDES step)</span> and tick **Enabled for Chromebook**.
 2. **Create the CA connection:** [Certificate authority connections](https://admin.google.com/ac/networks/certificates/ca-connections) → **Add connection**. It applies to the whole domain, not per OU.
    - **Name:** anything descriptive.
    - **Service account email:** {{connector_sa_email}}
    - **Pub/Sub topic:** projects/{{project_id}}/topics/{{topic_id}}
-   - **CA connection configuration identifier:** any short ID. Enter it here: {{ca_connection_id}}. It must match exactly in Step 5.
+   - **CA connection configuration identifier:** any short ID. Enter it here: {{ca_connection_id}}. It must match exactly in the connector step.
 3. **Create the profile:** [Certificate provisioning profiles](https://admin.google.com/ac/networks/certificates/profiles). Select your pilot OU on the left → **Add profile**.
-   - **Referenced certificate authority connection:** the connection from step 2.
+   - **Referenced certificate authority connection:** the connection you just created.
    - **User** or **Device**.
    - **Certificate provisioning profile name:** anything descriptive. Enter it here: {{profile_name}}
    - **Days before expiry to initiate renewal:** 1–90.
